@@ -1,17 +1,34 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import { connect } from 'react-redux'
 import Notification from './components/Notification'
 import blogService from './services/blogs'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
+import {
+  likeBlog,
+  deleteBlog,
+  clickTitle,
+  initializeBlogs,
+} from './reducers/blogReducer'
+import {
+  putMessage,
+} from './reducers/notificationReducer'
 
 
-const App = () => {
-  const [blogs, setBlogs] = useState([])
-  const [message, setMessage] = useState(null)
+const App = (props) => {
+  const store = props.store
+
+  useEffect(() => {
+    initializeBlogs()
+  }, [])
+
+  //  const [blogs, setBlogs] = useState([])
+  //  const [message, setMessage] = useState(null)
   const [user, setUser] = useState(null)
 
+  /*
   useEffect(() => {
     blogService
       .getAll()
@@ -21,6 +38,7 @@ const App = () => {
       })
   }, [])
 
+  */
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
@@ -50,24 +68,24 @@ const App = () => {
       .create(blogObject)
       .then(data => {
         console.log(data)
-        setBlogs(blogs.concat(data))
+        //setBlogs(blogs.concat(data))
       })
 
-    setMessage('Hype hype new blogpost added')
+    putMessage('Hype hype new blogpost added')
     setTimeout(() => {
-      setMessage(null)
+      putMessage(null)
     }, 5000)
   }
 
   const removeBlogFromState = (blogId) => {
     console.log('tämä')
-    console.log(blogs.filter(b => b.id !== blogId))
-    setBlogs(blogs.filter(b => b.id !== blogId))
+    //console.log(blogs.filter(b => b.id !== blogId))
+    //setBlogs(blogs.filter(b => b.id !== blogId))
   }
 
   const putLikedBlogToState = (likedBlog) => {
     console.log('tämä')
-    setBlogs(blogs.map(b => b.id === likedBlog.id ? likedBlog : b))
+    store.blogs.map(b => b.id === likedBlog.id ? likedBlog : b)
   }
 
 
@@ -76,11 +94,11 @@ const App = () => {
   if (user === null) { //also: {user === null && loginForm()}
     return (
       <div>
-        <Notification message={message} />
+        <Notification store={store}/>
         <h2>Log in to Application</h2>
         <Togglable buttonLabel='login'>
           <LoginForm
-            setMessage={setMessage}
+            store={store}
             setUser={setUser}
           />
         </Togglable>
@@ -90,8 +108,9 @@ const App = () => {
     return (
       <div>
         <h1>Blogs</h1>
-        <Notification message={message} />
+        <Notification store={store} />
         <p>Logged in as {user.name}</p>
+        <button onClick={() => {console.log(store.getState())}}>asfdgb</button>
         <button onClick={handleLogout}>logout</button>
 
         <Togglable buttonLabel='New Blog' ref={blogFormRef}>
@@ -100,16 +119,7 @@ const App = () => {
         </Togglable>
         {console.log('user token is: ', user.token)}
         <h4>Blogs</h4>
-        {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
-          <Blog
-            key={blog.id}
-            blog={blog}
-            user={user}
-            userToken={user.token}
-            putLikedBlogToState={(b) => putLikedBlogToState(b)}
-            removeBlogFromState={(b) => removeBlogFromState(b)}
-          />
-        )}
+       
       </div>
     )
   } else return (

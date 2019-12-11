@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
-import blogService from '../services/blogs'
+import { connect } from 'react-redux' //To be continued... tee connectjuttu ja mapStateToProps
 
-const Blog = ({ blog, user, removeBlogFromState, putLikedBlogToState }) => {
+import blogService from '../services/blogs'
+import { likeBlog, clickTitle } from '../reducers/blogReducer'
+
+const Blog = ( store, { blog, user, removeBlogFromState, putLikedBlogToState }) => {
   const [fullBlogVisible, setFullBlogVisible] = useState(false)
 
   // const hideWhenVisible = { display: fullBlogVisible ? 'none' : '' }
@@ -54,14 +57,13 @@ const Blog = ({ blog, user, removeBlogFromState, putLikedBlogToState }) => {
       .then(console.log('doned with Deleting.'))
   }
 
-
   return (
     <div style={blogStyle}>
-      <div className='contentHeader' onClick={handleClickTitle}>
+      <div className='contentHeader' onClick={() => handleClickTitle()}>
         {blog.title} by {blog.author}
         <div className='hiddenContent' style={showWhenVisible}>
           <p>Author: {blog.author}</p>
-          <p>Likes: {blog.likes}<button onClick={handleLiking} >Like</button></p>
+          <p>Likes: {blog.likes}<button onClick={() => likeBlog(blog)} >Like</button></p>
           <p>Url: {blog.url}</p>
           <div className='deleteButton'>
             {console.log(blog.user.username, ' is blog.user, logged in user is ', user.username)}
@@ -76,6 +78,13 @@ const Blog = ({ blog, user, removeBlogFromState, putLikedBlogToState }) => {
   )
 }
 
+const mapStateToProps = (state) => {
+  return {
+    blogs: state.blogs
+  }
+}
 
 
-export default Blog
+const ConnectedBlog = connect ()(Blog) //instead of a regular component, we're now exporting a connected one. First param for functions, 2nd for the component that's to be connected.
+
+export default ConnectedBlog
