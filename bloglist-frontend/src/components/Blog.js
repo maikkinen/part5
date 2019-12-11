@@ -3,7 +3,7 @@ import { connect } from 'react-redux' //To be continued... tee connectjuttu ja m
 import blogService from '../services/blogs'
 import { likeBlog, clickTitle } from '../reducers/blogReducer'
 
-const Blog = ( { store, blog, user, removeBlogFromState, putLikedBlogToState }) => {
+const Blog = ({ blog, user, removeBlogFromState, putLikedBlogToState }) => {
   const [fullBlogVisible, setFullBlogVisible] = useState(false)
 
   // const hideWhenVisible = { display: fullBlogVisible ? 'none' : '' }
@@ -56,6 +56,15 @@ const Blog = ( { store, blog, user, removeBlogFromState, putLikedBlogToState }) 
       .then(console.log('doned with Deleting.'))
   }
 
+  /*
+  {console.log(blog.user.username, ' is blog.user, logged in user is ', user.username)}
+            {blog.user.username === user.username ?
+              <button onClick={handleDeleting}>Delete</button> :
+              null
+            }
+
+  */
+
   return (
     <div style={blogStyle}>
       <div className='contentHeader' onClick={() => handleClickTitle()}>
@@ -65,11 +74,7 @@ const Blog = ( { store, blog, user, removeBlogFromState, putLikedBlogToState }) 
           <p>Likes: {blog.likes}<button onClick={() => likeBlog(blog)} >Like</button></p>
           <p>Url: {blog.url}</p>
           <div className='deleteButton'>
-            {console.log(blog.user.username, ' is blog.user, logged in user is ', user.username)}
-            {blog.user.username === user.username ?
-              <button onClick={handleDeleting}>Delete</button> :
-              null
-            }
+            
           </div>
         </div>
       </div>

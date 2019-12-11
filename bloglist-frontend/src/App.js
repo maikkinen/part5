@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Blog from './components/Blog'
+import BlogList from './components/BlogList'
 import { connect } from 'react-redux'
 import Notification from './components/Notification'
 import blogService from './services/blogs'
@@ -119,7 +119,7 @@ const App = (props) => {
         </Togglable>
         {console.log('user token is: ', user.token)}
         <h4>Blogs</h4>
-
+        <BlogList store={store} user={user} userToken = {user.userToken} />
       </div>
     )
   } else return (
