@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux' //To be continued... tee connectjuttu ja mapStateToProps
-
 import blogService from '../services/blogs'
 import { likeBlog, clickTitle } from '../reducers/blogReducer'
 
-const Blog = ( store, { blog, user, removeBlogFromState, putLikedBlogToState }) => {
+const Blog = ( { store, blog, user, removeBlogFromState, putLikedBlogToState }) => {
   const [fullBlogVisible, setFullBlogVisible] = useState(false)
 
   // const hideWhenVisible = { display: fullBlogVisible ? 'none' : '' }
@@ -85,6 +84,6 @@ const mapStateToProps = (state) => {
 }
 
 
-const ConnectedBlog = connect ()(Blog) //instead of a regular component, we're now exporting a connected one. First param for functions, 2nd for the component that's to be connected.
+const ConnectedBlog = connect (mapStateToProps)(Blog) //instead of a regular component, we're now exporting a connected one. First param for functions, 2nd for the component that's to be connected.
 
 export default ConnectedBlog

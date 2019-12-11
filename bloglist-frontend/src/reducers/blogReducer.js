@@ -48,20 +48,11 @@ export const clickTitle = (id) => {
 }
 
 export const initializeBlogs = async () => {
-  const a = await blogService.getAll()
-  console.log('blogservice: ', a )
+  const allBlogs = await blogService.getAll()
+  console.log('blogreducers initialize returns: ', allBlogs )
   return {
     type: 'INITIALIZE',
-    data: a,
-  }
-}
-
-export const initialMessage = () => {
-  const message = ''
-  console.log('initial message is empty, see: ', message)
-  return {
-    type: 'INITIAL_MESSAGE',
-    data: message,
+    data: allBlogs,
   }
 }
 

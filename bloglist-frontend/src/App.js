@@ -119,7 +119,7 @@ const App = (props) => {
         </Togglable>
         {console.log('user token is: ', user.token)}
         <h4>Blogs</h4>
-       
+
       </div>
     )
   } else return (
@@ -127,4 +127,13 @@ const App = (props) => {
   )
 }
 
-export default App
+const mapStateToProps = (state) => {
+  return {
+    blogs: state.blogs,
+    notification: state.notification
+  }
+}
+
+const ConnectedApp = connect(mapStateToProps)(App)
+
+export default ConnectedApp

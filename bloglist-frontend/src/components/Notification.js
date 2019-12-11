@@ -14,7 +14,7 @@ const Notification = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    message: state.message
+    notification: state.notification
   }
 }
 
