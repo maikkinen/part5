@@ -104,7 +104,6 @@ const App = (props) => {
         <h1>Blogs</h1>
         <Notification />
         <p>Logged in as {user.name}</p>
-        <button onClick={() => { console.log('duudidud') }}>asfdgb</button>
         <button onClick={handleLogout}>logout</button>
 
         <Togglable buttonLabel='New Blog' ref={blogFormRef}>

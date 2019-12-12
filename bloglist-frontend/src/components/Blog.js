@@ -2,8 +2,14 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux' //To be continued... tee connectjuttu ja mapStateToProps
 import { likeBlog, clickTitle, deleteBlog } from '../reducers/blogReducer'
 
-const Blog = ({ key, user, blog, like, deleteBlog }) => {
+const Blog = ({ key, user, blog, like, removal }) => {
   const [fullBlogVisible, setFullBlogVisible] = useState(false)
+
+  const blogUser = blog.user.username
+  const logdInUser = user.username
+
+  //console.log('blog user is: ', blog.user.username)
+  //console.log('user user is: ', logdInUser)
 
   // const hideWhenVisible = { display: fullBlogVisible ? 'none' : '' }
   const showWhenVisible = { display: fullBlogVisible ? '' : 'none' }
@@ -31,9 +37,9 @@ const Blog = ({ key, user, blog, like, deleteBlog }) => {
           <p>Likes: {blog.likes}<button onClick={like} >Like</button></p>
           <p>Url: {blog.url}</p>
           <div className='deleteButton'>
-            {console.log(blog.user.username, ' is blog.user, logged in user is ', user.username)}
-            {blog.user.username === user.username ?
-              <button onClick={() => deleteBlog(blog)}>Delete</button> :
+            {console.log(blogUser, ' is blog.user, logged in user is ', logdInUser)}
+            {blogUser === logdInUser ?
+              <button onClick={removal}>Delete</button> :
               null
             }
           </div>

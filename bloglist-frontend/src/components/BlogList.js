@@ -7,8 +7,8 @@ import { putMessage } from '../reducers/notificationReducer'
 const BlogList = (props) => {
   // props vaan saa LISÄÄ kenttiä. Sekä kun kutsutaan komponenttia että mapStateToPropsin avulla
   const blogs = props.blogs
-  console.log('here in BlogList, blogs are: ', blogs)
-  console.log('props: ', props)
+  //console.log('here in BlogList, blogs are: ', blogs)
+  //console.log('props: ', props)
 
   const like = (blog, event) => {
     console.log('yolo')
@@ -20,6 +20,12 @@ const BlogList = (props) => {
     }, 5000)
   }
 
+  const removal = (blog, event) => {
+    console.log('yolo removal')
+    event.preventDefault()
+    props.deleteBlog(blog.id)
+  }
+
   return (
     <ul>
       {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
@@ -29,7 +35,7 @@ const BlogList = (props) => {
           user={props.user}
           //userToken={props.user.token}
           like={(e) => like(blog, e)} //Tohon tulee: props.(likeBlog()
-          deleteBlog={() => console.log('yolo del')} //Koska connect, ei tarvitse: store.props.dispatch
+          removal={(e) => removal(blog, e)} //Koska connect, ei tarvitse: store.props.dispatch
         />
       )}
     </ul>
@@ -37,7 +43,7 @@ const BlogList = (props) => {
 }
 
 const mapStateToProps = (state) => {
-  console.log('state is: ', state)
+  //console.log('state is: ', state)
   return {
     blogs: state.blogs,
     notification: state.notification
