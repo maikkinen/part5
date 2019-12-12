@@ -11,9 +11,11 @@ const notificationReducer = ( state = initialMessage, action) => {
 
 export const putMessage = (message) => {
   console.log('message is: ', message)
-  return {
+  return dispatch => {
+    dispatch({
     type: 'PUT_MESSAGE',
     data: message,
+  })
   }
 }
 

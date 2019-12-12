@@ -1,19 +1,21 @@
 import blogService from '../services/blogs'
 
-const blogReducer = (state = [{ 'life': 'life' }], action) => {
+const blogReducer = (state = [], action) => {
   //First param is the state that's in the store.
   //Reducer returns the new state according to the type of the action.
   switch (action.type) {
-  case 'LIKE':
-    return action.data
-  case 'DELETE':
-    return state
-  case 'CLICK_TITLE':
-    return state
-  case 'INITIALIZE':
-    return action.data
-  default:
-    return state
+    case 'LIKE':
+      return action.data
+    case 'DELETE':
+      return state
+    case 'CLICK_TITLE':
+      return state
+    case 'INITIALIZE':
+      console.log('here in reducer init')
+      console.log('blogreducers initialize returns: ', action.data)
+      return action.data
+    default:
+      return state
   }
 }
 
@@ -47,14 +49,29 @@ export const clickTitle = (id) => {
   }
 }
 
-export const initializeBlogs = async () => {
-  const allBlogs = await blogService.getAll()
-  console.log('blogreducers initialize returns: ', allBlogs )
-  return {
-    type: 'INITIALIZE',
-    data: allBlogs,
+export const initializeBlogs = () => {
+  return async dispatch => {
+    const allBlogs = await blogService.getAll()
+    dispatch({
+      type: 'INITIALIZE',
+      data: allBlogs,
+    })
   }
 }
+
+// export const handleSetValue = setReducerValue(blogService.getAll())
+
+/*
+export const initializeAnecdotes = () => {
+  return async dispatch => {
+    const anecdotes = await anecdoteService.getAll()
+    dispatch({
+      type: 'INIT_NOTES',
+      data: anecdotes,
+    })
+  }
+}
+ */
 
 export default blogReducer
 

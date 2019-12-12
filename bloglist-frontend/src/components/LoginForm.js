@@ -2,6 +2,9 @@ import React from 'react'
 import { useField } from '../hooks/index'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
+import {
+  putMessage,
+} from '../reducers/notificationReducer'
 
 const LoginForm = ({
   //handleLogin,
@@ -9,7 +12,6 @@ const LoginForm = ({
   //setUsername,
   //password,
   //setPassword
-  setMessage,
   setUser,
 }) => {
 
@@ -33,9 +35,9 @@ const LoginForm = ({
       //setUsername('')
       //setPassword('')
     } catch (exception) {
-      setMessage('Those credentials are wrong, honey.')
+      putMessage('Those credentials are wrong, honey.')
       setTimeout(() => {
-        setMessage(null)
+        putMessage(null)
       }, 5000)
     }
   }

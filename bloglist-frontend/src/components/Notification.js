@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { putMessage } from '../reducers/notificationReducer'
 
 const Notification = (props) => {
   if (props.message === null) {
@@ -18,6 +19,13 @@ const mapStateToProps = (state) => {
   }
 }
 
-const ConnectedNotification = connect(mapStateToProps)(Notification)
+const mapDispatchToProps = {
+  putMessage
+}
+
+const ConnectedNotification = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Notification)
 
 export default ConnectedNotification

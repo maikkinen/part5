@@ -57,12 +57,11 @@ const Blog = ({ blog, user, removeBlogFromState, putLikedBlogToState }) => {
   }
 
   /*
-  {console.log(blog.user.username, ' is blog.user, logged in user is ', user.username)}
+            {console.log(blog.user.username, ' is blog.user, logged in user is ', user.username)}
             {blog.user.username === user.username ?
               <button onClick={handleDeleting}>Delete</button> :
               null
             }
-
   */
 
   return (
@@ -74,7 +73,6 @@ const Blog = ({ blog, user, removeBlogFromState, putLikedBlogToState }) => {
           <p>Likes: {blog.likes}<button onClick={() => likeBlog(blog)} >Like</button></p>
           <p>Url: {blog.url}</p>
           <div className='deleteButton'>
-            
           </div>
         </div>
       </div>
@@ -88,7 +86,15 @@ const mapStateToProps = (state) => {
   }
 }
 
+const mapDispatchToProps = {
+  clickTitle,
+  likeBlog
+}
 
-const ConnectedBlog = connect (mapStateToProps)(Blog) //instead of a regular component, we're now exporting a connected one. First param for functions, 2nd for the component that's to be connected.
+
+const ConnectedBlog = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Blog) //instead of a regular component, we're now exporting a connected one. First param for functions, 2nd for the component that's to be connected.
 
 export default ConnectedBlog

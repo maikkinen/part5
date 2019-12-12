@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import BlogList from './components/BlogList'
 import { connect } from 'react-redux'
+import BlogList from './components/BlogList'
 import Notification from './components/Notification'
 import blogService from './services/blogs'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
 import {
-  likeBlog,
-  deleteBlog,
-  clickTitle,
-  initializeBlogs,
+  initializeBlogs, // PITÄÄ connectaa. EI vapaaehtoista
 } from './reducers/blogReducer'
 import {
   putMessage,
@@ -18,10 +15,9 @@ import {
 
 
 const App = (props) => {
-  const store = props.store
 
   useEffect(() => {
-    initializeBlogs()
+    props.initializeBlogs()
   }, [])
 
   //  const [blogs, setBlogs] = useState([])
@@ -71,7 +67,7 @@ const App = (props) => {
         //setBlogs(blogs.concat(data))
       })
 
-    putMessage('Hype hype new blogpost added')
+    putMessage(`New blogpost "${blogObject.title}" added`)
     setTimeout(() => {
       putMessage(null)
     }, 5000)
@@ -85,20 +81,18 @@ const App = (props) => {
 
   const putLikedBlogToState = (likedBlog) => {
     console.log('tämä')
-    store.blogs.map(b => b.id === likedBlog.id ? likedBlog : b)
+    props.blogs.map(b => b.id === likedBlog.id ? likedBlog : b)
   }
-
 
   const blogFormRef = React.createRef()
 
   if (user === null) { //also: {user === null && loginForm()}
     return (
       <div>
-        <Notification store={store}/>
+        <Notification/>
         <h2>Log in to Application</h2>
         <Togglable buttonLabel='login'>
           <LoginForm
-            store={store}
             setUser={setUser}
           />
         </Togglable>
@@ -108,9 +102,9 @@ const App = (props) => {
     return (
       <div>
         <h1>Blogs</h1>
-        <Notification store={store} />
+        <Notification />
         <p>Logged in as {user.name}</p>
-        <button onClick={() => {console.log(store.getState())}}>asfdgb</button>
+        <button onClick={() => { console.log('duudidud') }}>asfdgb</button>
         <button onClick={handleLogout}>logout</button>
 
         <Togglable buttonLabel='New Blog' ref={blogFormRef}>
@@ -118,10 +112,12 @@ const App = (props) => {
           <BlogForm addBlog={(a, b, c) => addBlog(a, b, c)} />
         </Togglable>
         {console.log('user token is: ', user.token)}
+        {console.log('user is: ', user.name, user.username)}
         <h4>Blogs</h4>
-        <BlogList store={store} user={user} userToken = {user.userToken} />
+        <BlogList user={user}/>
       </div>
-    )
+    )   //Nyt kun nää komponentit on jo kaikki connectattu, eiks
+    //pitäis voida skipata storen antaminen propsina BlogListille?
   } else return (
     console.log('sos')
   )
@@ -129,11 +125,17 @@ const App = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    blogs: state.blogs,
+    //blogs: state.blogs,
     notification: state.notification
   }
 }
 
-const ConnectedApp = connect(mapStateToProps)(App)
+const mapDispatchToProps = {
+  initializeBlogs
+}
 
-export default ConnectedApp
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)
