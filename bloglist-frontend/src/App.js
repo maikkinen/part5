@@ -125,7 +125,7 @@ const App = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    //blogs: state.blogs,
+    blogs: state.blogs,
     notification: state.notification
   }
 }
@@ -137,5 +137,5 @@ const mapDispatchToProps = {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  { mapDispatchToProps, initializeBlogs }
 )(App)
