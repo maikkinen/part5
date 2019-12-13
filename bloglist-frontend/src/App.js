@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import BlogList from './components/BlogList'
 import Notification from './components/Notification'
 import blogService from './services/blogs'
+import userService from './services/user'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
@@ -23,18 +24,17 @@ const App = (props) => {
   //  const [blogs, setBlogs] = useState([])
   //  const [message, setMessage] = useState(null)
   const [user, setUser] = useState(null)
+  const [users, setUsers] = useState(null)
 
-  /*
   useEffect(() => {
-    blogService
+    userService
       .getAll()
-      .then(initialBlogs => {
-        setBlogs(initialBlogs)
-        console.log(initialBlogs)
+      .then(users => {
+        setUsers(users)
+        console.log('Users initialized in useEffect:',  users)
       })
   }, [])
 
-  */
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
