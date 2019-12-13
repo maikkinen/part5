@@ -28,6 +28,7 @@ const BlogList = (props) => {
 
   return (
     <ul>
+      <h4>Blogs</h4>
       {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
         <Blog
           key={blog.id}

@@ -13,7 +13,14 @@ import {
 import {
   putMessage,
 } from './reducers/notificationReducer'
-
+import UserList from './components/UserList'
+import {
+  BrowserRouter as Router,
+  Route, Link, Redirect, withRouter
+} from 'react-router-dom'
+import {
+  Button
+} from 'react-bootstrap'
 
 const App = (props) => {
 
@@ -24,14 +31,14 @@ const App = (props) => {
   //  const [blogs, setBlogs] = useState([])
   //  const [message, setMessage] = useState(null)
   const [user, setUser] = useState(null)
-  const [users, setUsers] = useState(null)
+  const [users, setUsers] = useState([])
 
   useEffect(() => {
     userService
       .getAll()
-      .then(users => {
-        setUsers(users)
-        console.log('Users initialized in useEffect:',  users)
+      .then(u => {
+        setUsers(u)
+        console.log('Users initialized in useEffect:', u)
       })
   }, [])
 
@@ -89,7 +96,7 @@ const App = (props) => {
   if (user === null) { //also: {user === null && loginForm()}
     return (
       <div>
-        <Notification/>
+        <Notification />
         <h2>Log in to Application</h2>
         <Togglable buttonLabel='login'>
           <LoginForm
@@ -101,19 +108,21 @@ const App = (props) => {
   } else if (user !== null) {
     return (
       <div>
-        <h1>Blogs</h1>
-        <Notification />
-        <p>Logged in as {user.name}</p>
-        <button onClick={handleLogout}>logout</button>
+        <Router>
+          <h1>Blogs</h1>
+          <Notification />
+          <p>Logged in as {user.name}</p>
+          <Button onClick={handleLogout}>logout</Button>
 
-        <Togglable buttonLabel='New Blog' ref={blogFormRef}>
-          <h4>New Blogpost</h4>
-          <BlogForm addBlog={(a, b, c) => addBlog(a, b, c)} />
-        </Togglable>
-        {console.log('user token is: ', user.token)}
-        {console.log('user is: ', user.name, user.username)}
-        <h4>Blogs</h4>
-        <BlogList user={user}/>
+          <Togglable buttonLabel='New Blog' ref={blogFormRef}>
+            <h4>New Blogpost</h4>
+            <BlogForm addBlog={(a, b, c) => addBlog(a, b, c)} />
+          </Togglable>
+          {console.log('user token is: ', user.token)}
+          {console.log('user is: ', user.name, user.username)}
+          <Route path="/blogs" render={() => <BlogList user={user} />} />
+          <Route path="/users" render={() => <UserList users={users} />} />
+        </Router>
       </div>
     )   //Nyt kun nää komponentit on jo kaikki connectattu, eiks
     //pitäis voida skipata storen antaminen propsina BlogListille?
