@@ -1,13 +1,18 @@
 import React from 'react'
 import {
-  Link
+  BrowserRouter as Router,
+  Route, Link, Redirect, withROuter
 } from 'react-router-dom'
 
 const User = ({ user }) => {
   const blogsAmount = user.blogs.length
-  console.log('blogsAmountis: ', blogsAmount )
+  const userIdLink = `/users/${user.id}`
 
-  if ( user === undefined ) {
+  console.log('userID is: ', userIdLink)
+
+  console.log('blogsAmountis: ', blogsAmount)
+
+  if (user === undefined) {
     return null
   }
 
@@ -20,7 +25,28 @@ const User = ({ user }) => {
 
   return (
     <div>
-      <Link to="#"> {user.name} </Link> {blogsAmount}
+      <Router>
+        <Link to={userIdLink}> {user.name} </Link> {blogsAmount}
+        {//Probis: pitäis saada id toimimaan.
+        }
+      </Router>
+    </div>
+  )
+}
+
+const UserInfo = ({ user }) => {
+  return (
+    <div>
+      <Router>
+        <h2>{user.name}</h2>
+        <br />
+        <p>has added blogs</p>
+        <ul>
+          {user.blog.map(b =>
+            <li key={b.id}>{b.title}</li>
+          )}
+        </ul>
+      </Router>
     </div>
   )
 }
