@@ -80,15 +80,14 @@ const App = (props) => {
     }, 5000)
   }
 
-  const removeBlogFromState = (blogId) => {
-    console.log('tämä')
-    //console.log(blogs.filter(b => b.id !== blogId))
-    //setBlogs(blogs.filter(b => b.id !== blogId))
+  const linkStyle = {
+    padding: 5,
+    margin: 2,
+    color: '#7a2569',
   }
 
-  const putLikedBlogToState = (likedBlog) => {
-    console.log('tämä')
-    props.blogs.map(b => b.id === likedBlog.id ? likedBlog : b)
+  const navbarStyle = {
+    backgroundColor: '#a0abba'
   }
 
   const blogFormRef = React.createRef()
@@ -109,9 +108,15 @@ const App = (props) => {
     return (
       <div>
         <Router>
+          <div style={navbarStyle}>
+            <Link style={linkStyle} to="/">home</Link>
+            <Link style={linkStyle} to="/users">users</Link>
+            <Link style={linkStyle} to="/blogs">blogs</Link>
+            <p style={{ padding: '5', color: '#ffe8f8' }}>Logged in as {user.name}</p>
+          </div>
+
           <h1>Blogs</h1>
           <Notification />
-          <p>Logged in as {user.name}</p>
           <Button onClick={handleLogout}>logout</Button>
 
           <Togglable buttonLabel='New Blog' ref={blogFormRef}>
@@ -120,8 +125,9 @@ const App = (props) => {
           </Togglable>
           {console.log('user token is: ', user.token)}
           {console.log('user is: ', user.name, user.username)}
-          <Route path="/blogs" render={() => <BlogList user={user} />} />
-          <Route path="/users" render={() => <UserList users={users} />} />
+          <Route exact path="/" render={() => <div></div>} />
+          <Route exact path="/blogs" render={() => <BlogList user={user} />} />
+          <Route exact path="/users" render={() => <UserList users={users} />} />
         </Router>
       </div>
     )   //Nyt kun nää komponentit on jo kaikki connectattu, eiks
