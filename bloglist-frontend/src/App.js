@@ -7,6 +7,7 @@ import userService from './services/user'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
+import User from './components/User'
 import {
   initializeBlogs, // PITÄÄ connectaa. EI vapaaehtoista
 } from './reducers/blogReducer'
@@ -92,6 +93,12 @@ const App = (props) => {
 
   const blogFormRef = React.createRef()
 
+  const userById = (id) => {
+    const a = users.find(u => u.id === id)
+    console.log('a is: ', a)
+    return a
+  }
+
   if (user === null) { //also: {user === null && loginForm()}
     return (
       <div>
@@ -127,6 +134,9 @@ const App = (props) => {
           {console.log('user is: ', user.name, user.username)}
           <Route exact path="/" render={() => <div></div>} />
           <Route exact path="/blogs" render={() => <BlogList user={user} />} />
+          <Route exact path="/users/:id" render={({ match }) =>
+            <User user={userById(match.params.id)} />}
+          />
           <Route exact path="/users" render={() => <UserList users={users} />} />
         </Router>
       </div>

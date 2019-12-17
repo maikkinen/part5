@@ -1,7 +1,7 @@
 import React from 'react'
 
 const User = ({ user }) => {
-
+  console.log(user)
   if (user === undefined) {
     return null
   }

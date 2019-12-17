@@ -13,7 +13,6 @@ const Blog = ({ key, user, blog, like, removal }) => {
 
   // const hideWhenVisible = { display: fullBlogVisible ? 'none' : '' }
   const showWhenVisible = { display: fullBlogVisible ? '' : 'none' }
-
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
